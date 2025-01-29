@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="movieApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/app/css/home.css">
+    <link rel="stylesheet" href="/app/css/actor.css">
+    <title>Search Movies by Actor</title>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-brand">
+          <a href="#">Cine<span> Bloom</span></a>
+        </div>
+        <div class="navbar-menu" ng-class="{ 'isNavOpen': isNavOpen }">
+          <a href="/">Home</a>
+          <a href="/top-rated">TopRated</a>
+          <a href="/RecentlyAddedMovies">New Arrivals</a>
+          <a href="/actor">Star & Films</a>
+        </div>
+        <button class="navbar-burger" ng-class="{ 'isNavOpen': isNavOpen }" ng-click="toggleNav()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+
+    <!-- Search Section -->
+    <div class="movie-container" ng-controller="actorController">
+        <div class="search-bar">
+            <input type="text" id="actorName" ng-model="actorName" placeholder="Search Movies by Actor Name...">
+            <button ng-click="searchActor()" ng-disabled="loading" class="search-btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </div>
+
+        <div class="genre-filter">
+            <label for="genres"><i class="fa fa-filter" aria-hidden="true"></i></label>
+            <select id="genres" ng-model="selectedGenre" ng-change="fetchMoviesByGenre()">
+                <option value="" disabled selected>Genre</option>
+                <option id="options" ng-repeat="(id, name) in genres" value="{{id}}">{{name}}</option>
+            </select>
+        </div>
+
+
+        <div ng-if="loading" class="loading-message">Loading...</div>
+        <div ng-if="errorMessage" class="error-message">{{errorMessage}}</div>
+
+        <div ng-if="actorDetails.id" class="actor-info">
+            <h2 class="">Movies of {{actorDetails.name}}</h2>
+            <img ng-src="https://image.tmdb.org/t/p/w500{{ actorDetails.profile_path }}" alt="{{ movie.name }}" class="movie-poster">
+            <div class="actor-movies">
+                <ul>
+                    <li ng-repeat="movie in actorMovies">
+                        <strong>{{movie.title}}</strong> ({{movie.release_date}})
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 CineBloom. All Rights Reserved.</p>
+    </footer>
+
+    <script src="/app/js/home.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+    <script src="/app/app.js"></script>
+    <script src="/app/service/movieService.js"></script>
+    <script src="/app/controller/movieSearchController.js"></script>
+
+</body>
+</html>

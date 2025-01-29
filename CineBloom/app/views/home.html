@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineBloom</title>
+
+    <!-- Fonts and Stylesheets -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/app/css/home.css">
+
+    <!-- AngularJS Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+
+    <!-- App Scripts -->
+    <script src="/app/app.js"></script>
+    <script src="/app/service/movieService.js"></script>
+    <script src="/app/controller/mainController.js"></script>
+</head>
+<body ng-app="MovieApp">
+
+    <nav class="navbar">
+        <div class="navbar-brand">
+          <a href="#">Cine<span> Bloom</span></a>
+        </div>
+        <div class="navbar-menu" ng-class="{ 'isNavOpen': isNavOpen }">
+          <a href="/">Home</a>
+          <a href="/top-rated">TopRated</a>
+          <a href="/RecentlyAddedMovies">New Arrivals</a>
+          <a href="/actor">Star & Films</a>
+        </div>
+        <button class="navbar-burger" ng-class="{ 'isNavOpen': isNavOpen }" ng-click="toggleNav()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    
+     <!-- Main Content Section -->
+     <div class="movie-container" ng-controller="mainController">
+         <div class="search-bar">
+        <input type="text" ng-model="searchTerm" placeholder="Search for a movie...">
+        <button ng-click="searchMovies()"><i class="fa fa-search" aria-hidden="true"></i></button>
+    </div>
+        <!-- Genre Filter -->
+        <div class="genre-filter">
+            <label for="genres"><i class="fa fa-filter" aria-hidden="true"></i></label>
+            <select id="genres" ng-model="selectedGenre" ng-change="fetchMoviesByGenre()">
+                <option value="" disabled selected>Genre</option>
+                <option id="options" ng-repeat="(id, name) in genres" value="{{id}}">{{name}}</option>
+            </select>
+        </div>
+
+        <!-- Loading Message -->
+        <div ng-if="loading" class="loading-message">Loading movies...</div>
+
+        <!-- Default Movie Grid Section -->
+
+            
+            <div class="movies" ng-if="!loading">
+                <div class="movie-card" ng-repeat="movie in (viewState === 'movies' ? movies : viewState === 'search' ? searchResults : genreMovies)" ng-click="goToDetails(movie.title)">
+                    <img ng-src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="movie-poster">
+                </div>
+            </div>
+    
+            <div class="pagination-controls">
+                <div class="pagination-bubble" ng-click="prevPage()" ng-disabled="currentPage === 1">&laquo;</div>
+                <p><strong>{{currentPage}}</strong></p>
+                <div class="pagination-bubble" ng-click="nextPage()">&raquo;</div>
+            </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 CineBloom. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

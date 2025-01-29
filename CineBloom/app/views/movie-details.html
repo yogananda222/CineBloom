@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineBloom</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="/app/css/movie-details.css">
+
+    <link rel="stylesheet" href="/app/css/home.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+          <a href="#">Cine<span> Bloom</span></a>
+        </div>
+        <div class="navbar-menu" ng-class="{ 'isNavOpen': isNavOpen }">
+          <a href="/">Home</a>
+          <a href="/top-rated">TopRated</a>
+          <a href="/RecentlyAddedMovies">New Arrivals</a>
+          <a href="/actor">Star & Films</a>
+        </div>
+        <button class="navbar-burger" ng-class="{ 'isNavOpen': isNavOpen }" ng-click="toggleNav()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+
+    <!-- Movie Card -->
+    <div class="movie_card" id="movieCard">
+        <div class="info_section">
+            <div class="movie_header">
+                <img class="locandina" ng-src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
+                <h1>{{ movie.title }}</h1>
+                <h4>{{ movie.release_date.split("-")[0] }}, {{ movie.director || 'Director Name' }}</h4>
+                <span class="minutes">Language: {{ movie.original_language }}</span>
+                <p class="type">{{ movie.genres.join(', ') }}</p>
+            </div>
+            <div class="movie_desc">
+                <p class="text">{{ movie.overview }}</p>
+            </div>
+        </div>
+        <div class="blur_back" style="background-image: url('https://image.tmdb.org/t/p/w500{{ movie.backdrop_path }}');"></div>
+    </div>
+
+    <div ng-if="loading">Loading movie details...</div>
+
+    <a href="/" class="back-link">
+        <i class="fa fa-angle-double-left"></i> Back
+    </a>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 CineBloom. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+    <script src="/app/app.js"></script>
+    <script src="/app/service/movieService.js"></script>
+    <script src="/app/controller/movieSearchController.js"></script>
+    <script src="/app/js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/app/css/topRatedMovies.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+    <title>CineBloom</title>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-brand">
+          <a href="#">Cine<span> Bloom</span></a>
+        </div>
+        <div class="navbar-menu" ng-class="{ 'isNavOpen': isNavOpen }">
+          <a href="/">Home</a>
+          <a href="/RecentlyAddedMovies">New Arrivals</a>
+          <a href="/actor">Star & Films</a>
+        </div>
+        <button class="navbar-burger" ng-class="{ 'isNavOpen': isNavOpen }" ng-click="toggleNav()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+
+
+    <!-- Movie Container -->
+    <div class="movie-container">
+        <h1>Top Rated Movies</h1>
+
+        <!-- Loading State -->
+        <div ng-if="loading" class="loading-message">Loading movies...</div>
+
+        <!-- Movie Grid -->
+        <div class="movies" ng-if="!loading">
+            <div class="movie-card" ng-repeat="movie in topRatedMovies" ng-click="goToDetails(movie.title)">
+                <img ng-src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="movie-poster">
+                <p>Rating: {{ movie.vote_average | number: 1 }}/10</p>
+            </div>
+        </div>
+
+        <div class="pagination-controls">
+            <div class="pagination-bubble" ng-click="prevPage()" ng-disabled="currentPage === 1">
+                &laquo;
+            </div>
+            <p><strong>{{currentPage}}</strong></p>
+            <div class="pagination-bubble" ng-click="nextPage()">
+                &raquo;
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 CineBloom. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/app/js/home.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+    <script src="/app/app.js"></script>
+    <script src="/app/service/movieService.js"></script>
+</body>
+</html>
